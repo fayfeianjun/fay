@@ -2,65 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>测试</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
-<style>
+    <title>Document</title>
+<style type="text/css">
 *{
     margin: 0 ; padding: 0 ; list-style: none;
 }
-div{
-    background:#f90; line-height: 150px; text-align:center ; width: 150px ; height:150px;
-    position: absolute; font-size: 60px; color:#fff;
+header{
+    width:100%; height:30px; padding-top:20px; text-align:center;
+}
+header a{
+    display:inline-block; margin: 0 10px; color:blue; text-decoration:none; font-weight: 700;
 }
 </style>
-<script>
-document.addEventListener("DOMContentLoaded",function(){
-    var aDiv = document.querySelectorAll("div");
-
-    for (var i = 0; i < aDiv.length; i++) {
-        darg(aDiv[i]);
-    };
-
-    function darg(obj){
-
-        obj.addEventListener("touchstart",function(ev){
-
-            var touch=ev.targetTouches;
-            var disX=touch[touch.length-1].pageX-obj.offsetLeft;
-            var disY=touch[touch.length-1].pageY-obj.offsetTop;
-            var id=touch[touch.length-1].identifier;
-            function fnMove(ev){
-                for (var i = 0; i < ev.changedTouches.length; i++) {
-                    if(id == ev.changedTouches[i].identifier){
-                        var x = ev.changedTouches[i].pageX - disX;
-                        var y = ev.changedTouches[i].pageY - disY;
-                        console.log(x+"|"+y)
-                        obj.style.left = x+"px";
-                        obj.style.top = y+"px";
-                    }
-                };
-            };
-            function fnEnd(ev){
-                for (var i = 0; i < ev.changedTouches.length; i++) {
-                    if(id == ev.changedTouches[i].identifier){
-                        obj.removeEventListener("touchmove",fnM,false);
-                        obj.removeEventListener("touchend",fnE,false);
-                    };
-                };
-            };
-            obj.addEventListener('touchmove', fnMove, false);
-            obj.addEventListener('touchend', fnEnd, false);
-            ev.preventDefault();
-        },false);
-
-    };  
-
-},false);
-</script>
 </head>
 <body>
-<div style="left:0;top:0;">1</div>
-<div style="left:0;top:200px;">2</div>
-<div style="left:0;top:400px;">3</div>
+    <header>
+    <a href="html/index1.html">单点拖拽</a> 
+    <a href="html/index2.html">多点拖拽</a>
+    </header>
 </body>
 </html>
