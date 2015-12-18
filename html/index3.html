@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+<title>Document</title>
+<style>
+*{
+    margin: 0 ; padding: 0; list-style: none;
+}
+div{
+    width: 200px; height:200px; background: yellow;line-height:200px;
+    text-align:center; position:absolute; left:0; top: 0 ;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+
+    var oDiv = document.querySelector("div");
+
+    oDiv.addEventListener("touchstart",function(ev){
+        var disX = ev.targetTouches[0].pageX - this.offsetLeft;
+        var disY = ev.targetTouches[0].pageY - this.offsetTop;
+
+        var oDnX = ev.targetTouches[0].pageX;
+        var oDnY = ev.targetTouches[0].pageY;
+
+        var dis = "";
+        function fnM(ev){
+            if(!dis){
+                if(Math.abs(ev.targetTouches[0].pageX - oDnX)>10){
+                    dis = "x";
+                }else if(Math.abs(ev.targetTouches[0].pageY - oDnY)>10){
+                    dis = "y";
+                }
+            }else{
+                if(dis == "x"){
+                    oDiv.style.left = ev.targetTouches[0].pageX - disX + "px";
+                }else{
+                    oDiv.style.top = ev.targetTouches[0].pageY - disY + "px";
+                }
+            }
+        };
+
+        function fnE(ev){
+            oDiv.removeEventListener("touchmove",fnM,false);
+            oDiv.removeEventListener("touchend",fnE,false);
+        };
+
+        oDiv.addEventListener("touchmove",fnM,false);
+        oDiv.addEventListener("touchend",fnE,false);
+        ev.preventDefault();
+    },false);
+
+},false);
+</script>
+</head>
+<body>
+<div>锁定方向</div>
+</body>
+</html>
