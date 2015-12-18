@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=320,initial-scale=1,user-scalable=no"/>
-<title>手机端</title>
+    <meta charset="UTF-8">
+    <title>测试</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
 <style>
 *{
     margin: 0 ; padding: 0 ; list-style: none;
 }
 div{
-    width:200px; height: 200px; background:red; line-height:200px; text-align:center;
-    transform:translate(0,0); font-size:50px; color:#fff; position:absolute; left:0;
-    top:0;
+    background:#f90; line-height: 150px; text-align:center ; width: 150px ; height:150px;
+    position: absolute; font-size: 60px; color:#fff;
 }
 </style>
 <script>
 document.addEventListener("DOMContentLoaded",function(){
-    var oDiv = document.querySelector("div");
-    oDiv.addEventListener("touchstart",function(ev){
-        var disX = ev.targetTouches[0].pageX - this.offsetLeft;
-        var disY = ev.targetTouches[0].pageY - this.offsetTop;
+    var aDiv = document.querySelectorAll("div");
 
-        function fnMove(ev){
-            var x = ev.targetTouches[0].pageX - disX;
-            var y = ev.targetTouches[0].pageY - disY;
-            oDiv.style.left = x+"px";
-            oDiv.style.top = y+"px";
-            // oDiv.style.transform = "translate("+x+"px,"+y+"px)";
-            
-        }
-        function fnEnd(ev){
-            oDiv.removeEventListener("touchmove",fnMove,false);
-            oDiv.removeEventListener("touchend",fnEnd,false);
-        }
-        oDiv.addEventListener("touchmove",fnMove,false);
-        oDiv.addEventListener("touchend",fnEnd,false);
+    for (var i = 0; i < aDiv.length; i++) {
+        darg(aDiv[i]);
+    };
 
-        ev.preventDefault();
-    },false);
+    function darg(obj){
 
+        obj.addEventListener("touchstart",function(ev){
+
+            var touch=ev.targetTouches;
+            var disX=touch[touch.length-1].pageX-obj.offsetLeft;
+            var disY=touch[touch.length-1].pageY-obj.offsetTop;
+            var id=touch[touch.length-1].identifier;
+            function fnMove(ev){
+                for (var i = 0; i < ev.changedTouches.length; i++) {
+                    if(id == ev.changedTouches[i].identifier){
+                        var x = ev.changedTouches[i].pageX - disX;
+                        var y = ev.changedTouches[i].pageY - disY;
+                        console.log(x+"|"+y)
+                        obj.style.left = x+"px";
+                        obj.style.top = y+"px";
+                    }
+                };
+            };
+            function fnEnd(ev){
+                for (var i = 0; i < ev.changedTouches.length; i++) {
+                    if(id == ev.changedTouches[i].identifier){
+                        obj.removeEventListener("touchmove",fnM,false);
+                        obj.removeEventListener("touchend",fnE,false);
+                    };
+                };
+            };
+            obj.addEventListener('touchmove', fnMove, false);
+            obj.addEventListener('touchend', fnEnd, false);
+            ev.preventDefault();
+        },false);
+
+    };  
 
 },false);
 </script>
 </head>
 <body>
-<div class="box">move</div>
+<div style="left:0;top:0;">1</div>
+<div style="left:0;top:200px;">2</div>
+<div style="left:0;top:400px;">3</div>
 </body>
 </html>
