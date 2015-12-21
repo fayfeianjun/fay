@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>单点旋转</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style type="text/css">
+*{
+    margin: 0; padding: 0; list-style: none;
+}
+div{
+    width:200px; height:200px; background:blue; line-height:200px; text-align:center;
+    font-size:20px; color: #fff; margin: 100px auto; transform:rotate(0deg);
+}
+</style>
+<script>
+function d2a(n){
+    return n*Math.PI/180;
+}
+function a2d(n){
+    return n*180/Math.PI;
+}
+document.addEventListener("DOMContentLoaded",function(){
+    var oDiv = document.querySelector("div");
+    var d = 0;
+    oDiv.addEventListener("touchstart",function(ev){
+        function getDir(ev){
+            var x = ev.targetTouches[0].pageX-oDiv.offsetLeft-oDiv.offsetWidth/2;
+            var y = oDiv.offsetTop+oDiv.offsetHeight/2-ev.targetTouches[0].pageY;
+
+            return a2d(Math.atan2(y,x));
+        }
+        var oLd = d;
+        var oDwon = getDir(ev);
+
+        function fnM(ev){
+
+            d = oLd + oDwon - getDir(ev);
+            oDiv.style.WebkitTransform = "rotate("+d+"deg)"
+
+        };
+        function fnE(ev){
+            oDiv.removeEventListener("touchmove",fnM,false);
+            oDiv.removeEventListener("touchend",fnE,false);   
+        };
+        oDiv.addEventListener("touchmove",fnM,false);
+        oDiv.addEventListener("touchend",fnE,false);
+        ev.preventDefault();
+    },false);
+
+
+
+},false);
+</script>
+</head>
+<body>
+<div>单点旋转</div>
+    
+</body>
+</html>
